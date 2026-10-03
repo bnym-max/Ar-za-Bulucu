@@ -1,1 +1,1891 @@
-test
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101010">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<title>🚗 Arıza Bulucu</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #101010;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  max-width: 520px;
+  margin: auto;
+  padding: 18px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+header h1 {
+  margin: 5px 0 8px;
+  font-size: 28px;
+}
+
+header p {
+  color: #999;
+  margin-top: 0;
+}
+
+.menu {
+  display: grid;
+  gap: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 17px;
+  margin: 6px 0;
+  border: 0;
+  border-radius: 14px;
+  background: #242424;
+  color: white;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(.98);
+}
+
+#ekran {
+  margin-top: 0;
+}
+
+.kart,
+.soru,
+.aciklama {
+  background: #1c1c1c;
+  padding: 18px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+.kart h2,
+.soru h2,
+.aciklama h2 {
+  margin-top: 0;
+}
+
+.kart p,
+.soru p,
+.aciklama p {
+  color: #ccc;
+  line-height: 1.6;
+}
+
+.baslik {
+  margin-bottom: 18px;
+}
+
+.liste {
+  padding-left: 22px;
+  line-height: 1.8;
+  color: #ddd;
+}
+
+.uyari {
+  background: #302b1c;
+  color: #ffd966;
+  padding: 13px;
+  border-radius: 12px;
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+.tehlike {
+  background: #351d1d;
+}
+
+.tehlike .uyari {
+  background: #451d1d;
+  color: #ffaaaa;
+}
+
+.geri {
+  margin-top: 15px;
+  background: #333;
+}
+
+.altbilgi {
+  color: #888;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+<h1>🚗 ARIZA BULUCU</h1>
+<p>Aracındaki problemi adım adım bul.</p>
+</header>
+
+<main id="ekran"></main>
+
+</div>
+
+<script>
+
+const ekran = document.getElementById("ekran");
+
+anaMenu();
+
+/* ANA MENÜ */
+
+function anaMenu() {
+
+ekran.innerHTML = `
+
+<div class="menu">
+
+<button data-action="ariza">
+🔎 ARIZA BUL
+</button>
+
+<button data-action="parca">
+🧩 PARÇA REHBERİ
+</button>
+
+<button data-action="ogren">
+📚 ÖĞREN
+</button>
+
+</div>
+
+<div class="kart">
+
+<h2>🚗 Arıza Bulucu</h2>
+
+<p>
+Aracındaki belirtileri seçerek olası nedenleri
+adım adım öğren.
+</p>
+
+<div class="uyari">
+⚠️ Bu uygulama kesin teşhis koymaz.
+Sonuçlar yalnızca olası nedenleri gösterir.
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* ARIZA MENÜSÜ */
+
+function arizaMenu() {
+
+ekran.innerHTML = `
+
+<div class="baslik">
+
+<h2>🔎 Arıza Bul</h2>
+
+<p>Aracındaki belirtiyi seç.</p>
+
+</div>
+
+<div class="menu">
+
+<button data-action="hararet">
+🌡️ Hararet / Soğutma
+</button>
+
+<button data-action="turbo">
+🌀 Turbo / Çekiş
+</button>
+
+<button data-action="elektrik">
+⚡ Elektrik / Akü
+</button>
+
+<button data-action="sanziman">
+⚙️ Şanzıman / Debriyaj
+</button>
+
+<button data-action="fren">
+🛑 Fren
+</button>
+
+<button data-action="ses">
+🔊 Ses / Titreşim
+</button>
+
+<button data-action="motor">
+🔥 Motor / Çalışma
+</button>
+
+<button data-action="duman">
+💨 Egzoz Dumanı
+</button>
+
+</div>
+
+<button class="geri" data-action="ana">
+⬅️ Ana Menü
+</button>
+
+`;
+
+}
+
+
+/* HARARET */
+
+function hararet() {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>🌡️ Hararet / Soğutma</h2>
+
+<p>
+Motor sıcaklığı normalden fazla yükseliyor mu?
+</p>
+
+<button data-action="hararet-evet">
+✅ Evet
+</button>
+
+<button data-action="hararet-hayir">
+❌ Hayır
+</button>
+
+<button data-action="hararet-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Geri
+</button>
+
+</div>
+
+`;
+
+}
+
+
+function hararetEvet() {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>🌡️ Hararet</h2>
+
+<p>
+Hararet yükseldiğinde radyatör fanı çalışıyor mu?
+</p>
+
+<button data-action="fan-evet">
+✅ Evet
+</button>
+
+<button data-action="fan-hayir">
+❌ Hayır
+</button>
+
+<button data-action="fan-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="hararet">
+⬅️ Geri
+</button>
+
+</div>
+
+`;
+
+}
+
+
+function fanSonuc(cevap) {
+
+if (cevap === "hayir") {
+
+sonuc(
+"🌡️ Fan Sistemi",
+
+`
+<p><b>Olası nedenler:</b></p>
+
+<ul class="liste">
+
+<li>Fan motoru</li>
+<li>Fan sigortası</li>
+<li>Fan rölesi</li>
+<li>Fan kontrol sistemi</li>
+<li>Sıcaklık sensörü</li>
+<li>Kablo veya elektrik bağlantısı</li>
+
+</ul>
+
+<div class="uyari">
+⚠️ Fan çalışmıyorsa özellikle araç dururken
+soğutma problemi oluşabilir.
+</div>
+`,
+
+true
+);
+
+} else {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>💧 Soğutma Sistemi</h2>
+
+<p>
+Soğutma suyu veya antifriz sürekli azalıyor mu?
+</p>
+
+<button data-action="su-evet">
+✅ Evet
+</button>
+
+<button data-action="su-hayir">
+❌ Hayır
+</button>
+
+<button data-action="su-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Arıza Menüsü
+</button>
+
+</div>
+
+`;
+
+}
+
+}
+
+
+function suSonuc(cevap) {
+
+if (cevap === "evet") {
+
+sonuc(
+
+"💧 Soğutma Suyu Eksiliyor",
+
+`
+<p><b>Olası nedenler:</b></p>
+
+<ul class="liste">
+
+<li>Su hortumu veya bağlantı kaçağı</li>
+<li>Radyatör kaçağı</li>
+<li>Su pompası problemi</li>
+<li>Termostat çevresinde kaçak</li>
+<li>Genleşme kabı veya kapağı</li>
+<li>Soğutma sistemi basınç problemi</li>
+<li>Silindir kapak contası gibi ciddi problemler</li>
+
+</ul>
+
+<div class="uyari">
+⚠️ Motor hararet yapıyorsa aracı kullanmaya
+devam etmek ciddi motor hasarına yol açabilir.
+</div>
+`,
+
+true
+);
+
+} else {
+
+sonuc(
+
+"🔍 Soğutma Sistemi",
+
+`
+<ul class="liste">
+
+<li>Termostat</li>
+<li>Su pompası</li>
+<li>Radyatör</li>
+<li>Fan sistemi</li>
+<li>Sıcaklık sensörü</li>
+<li>Soğutma sıvısı dolaşımı</li>
+
+</ul>
+`
+
+);
+
+}
+
+}
+
+
+/* TURBO */
+
+function turbo() {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>🌀 Turbo / Çekiş</h2>
+
+<p>
+Araçta belirgin çekiş düşüklüğü var mı?
+</p>
+
+<button data-action="turbo-evet">
+✅ Evet
+</button>
+
+<button data-action="turbo-hayir">
+❌ Hayır
+</button>
+
+<button data-action="turbo-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Geri
+</button>
+
+</div>
+
+`;
+
+}
+
+
+function turboSonuc(cevap) {
+
+if (cevap === "evet") {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>🌀 Turbo / Çekiş</h2>
+
+<p>
+Çekiş düşüklüğüne ek olarak ıslık,
+hava kaçırma veya farklı bir turbo sesi geliyor mu?
+</p>
+
+<button data-action="turbo-ses-evet">
+✅ Evet
+</button>
+
+<button data-action="turbo-ses-hayir">
+❌ Hayır
+</button>
+
+<button data-action="turbo-ses-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Arıza Menüsü
+</button>
+
+</div>
+
+`;
+
+} else {
+
+sonuc(
+
+"🌀 Turbo",
+
+`
+<p>
+Belirgin çekiş düşüklüğü yoksa yalnızca bu bilgiyle
+turbo arızası söylenemez.
+</p>
+
+<ul class="liste">
+
+<li>Hava filtresi</li>
+<li>Turbo hortumları</li>
+<li>Intercooler bağlantıları</li>
+<li>Turbo basınç sistemi</li>
+<li>Turbo kontrol mekanizması</li>
+
+</ul>
+`
+
+);
+
+}
+
+}
+
+
+function turboSesSonuc(cevap) {
+
+if (cevap === "evet") {
+
+sonuc(
+
+"🌀 Turbo / Hava Kaçağı",
+
+`
+<ul class="liste">
+
+<li>Turbo hortumları</li>
+<li>Intercooler hortumları</li>
+<li>Hava bağlantıları</li>
+<li>Turbo kontrol sistemi</li>
+<li>Turbo ünitesi</li>
+
+</ul>
+
+<p>
+Islık sesi tek başına kesin turbo arızası anlamına gelmez.
+</p>
+`
+
+);
+
+} else {
+
+sonuc(
+
+"🔍 Çekiş Problemi",
+
+`
+<ul class="liste">
+
+<li>Hava filtresi</li>
+<li>Yakıt sistemi</li>
+<li>Hava giriş sistemi</li>
+<li>Egzoz sistemi</li>
+<li>Motor yönetim sistemi</li>
+<li>Turbo sistemi</li>
+
+</ul>
+`
+
+);
+
+}
+
+}
+
+
+/* ELEKTRİK */
+
+function elektrik() {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>⚡ Elektrik / Akü</h2>
+
+<p>
+Marşa bastığında motor zor mu dönüyor veya hiç mi dönmüyor?
+</p>
+
+<button data-action="mars-evet">
+✅ Evet
+</button>
+
+<button data-action="mars-hayir">
+❌ Hayır
+</button>
+
+<button data-action="mars-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Geri
+</button>
+
+</div>
+
+`;
+
+}
+
+
+function marsSonuc(cevap) {
+
+if (cevap === "evet") {
+
+sonuc(
+
+"🔋 Akü / Marş Sistemi",
+
+`
+<ul class="liste">
+
+<li>Akü</li>
+<li>Akü kutup başları</li>
+<li>Şase bağlantıları</li>
+<li>Marş motoru</li>
+<li>Marş sistemi bağlantıları</li>
+<li>Şarj sistemi</li>
+
+</ul>
+`
+
+);
+
+} else {
+
+sonuc(
+
+"⚡ Elektrik Sistemi",
+
+`
+<ul class="liste">
+
+<li>Akü</li>
+<li>Alternatör</li>
+<li>Sigortalar</li>
+<li>Elektrik bağlantıları</li>
+<li>Yakıt sistemi</li>
+<li>Ateşleme sistemi</li>
+
+</ul>
+`
+
+);
+
+}
+
+}
+
+
+/* ŞANZIMAN */
+
+function sanziman() {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>⚙️ Şanzıman / Debriyaj</h2>
+
+<p>
+Vites değiştirirken zorlanma, kayma veya anormal ses var mı?
+</p>
+
+<button data-action="vites-evet">
+✅ Evet
+</button>
+
+<button data-action="vites-hayir">
+❌ Hayır
+</button>
+
+<button data-action="vites-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Geri
+</button>
+
+</div>
+
+`;
+
+}
+
+
+function vitesSonuc(cevap) {
+
+if (cevap === "evet") {
+
+sonuc(
+
+"⚙️ Şanzıman / Debriyaj",
+
+`
+<ul class="liste">
+
+<li>Debriyaj sistemi</li>
+<li>Debriyaj hidrolik sistemi</li>
+<li>Debriyaj baskı ve balata sistemi</li>
+<li>Vites mekanizması</li>
+<li>Şanzıman yağı</li>
+<li>Şanzıman iç parçaları</li>
+
+</ul>
+`
+
+);
+
+} else {
+
+sonuc(
+
+"⚙️ Şanzıman",
+
+`
+<p>
+Belirgin vites problemi yoksa bu belirti tek başına
+şanzıman arızasını göstermez.
+</p>
+`
+
+);
+
+}
+
+}
+
+
+/* FREN */
+
+function fren() {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>🛑 Fren</h2>
+
+<p>
+Frene bastığında araç normalden daha uzun mesafede mi duruyor?
+</p>
+
+<button data-action="fren-evet">
+✅ Evet
+</button>
+
+<button data-action="fren-hayir">
+❌ Hayır
+</button>
+
+<button data-action="fren-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Geri
+</button>
+
+</div>
+
+`;
+
+}
+
+
+function frenSonuc(cevap) {
+
+if (cevap === "evet") {
+
+sonuc(
+
+"🛑 Fren Sistemi",
+
+`
+<ul class="liste">
+
+<li>Fren balataları</li>
+<li>Fren diskleri</li>
+<li>Fren hidroliği</li>
+<li>Kaliperler</li>
+<li>Fren hidrolik sistemi</li>
+<li>Lastikler</li>
+
+</ul>
+
+<div class="uyari">
+⚠️ Fren performansı belirgin şekilde azaldıysa
+aracı kullanmaya devam etmek güvenli olmayabilir.
+</div>
+`,
+
+true
+);
+
+} else {
+
+sonuc(
+
+"🛑 Fren",
+
+`
+<p>
+Fren mesafesi normal görünüyorsa bile anormal ses,
+titreşim veya pedal hissi varsa kontrol gerekebilir.
+</p>
+`
+
+);
+
+}
+
+}
+
+
+/* SES */
+
+function ses() {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>🔊 Ses / Titreşim</h2>
+
+<p>
+Araç hareket halindeyken belirgin bir ses veya titreşim var mı?
+</p>
+
+<button data-action="ses-evet">
+✅ Evet
+</button>
+
+<button data-action="ses-hayir">
+❌ Hayır
+</button>
+
+<button data-action="ses-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Geri
+</button>
+
+</div>
+
+`;
+
+}
+
+
+function sesSonuc(cevap) {
+
+if (cevap === "evet") {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>🔊 Ses / Titreşim</h2>
+
+<p>
+Ses veya titreşim en çok nerede hissediliyor?
+</p>
+
+<button data-action="ses-on">
+🚗 Ön tarafta
+</button>
+
+<button data-action="ses-arka">
+🚙 Arka tarafta
+</button>
+
+<button data-action="ses-motor">
+🔥 Motor tarafından
+</button>
+
+<button data-action="ses-vites">
+⚙️ Vites / Aktarma tarafında
+</button>
+
+<button data-action="ses-bilinmiyor">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Arıza Menüsü
+</button>
+
+</div>
+
+`;
+
+} else {
+
+sonuc(
+
+"🔊 Ses / Titreşim",
+
+`
+<p>
+Belirgin ses veya titreşim yoksa bu bölümde
+belirgin bir belirti bulunamadı.
+</p>
+`
+
+);
+
+}
+
+}
+
+
+function sesBolgesi(bolge) {
+
+const bilgiler = {
+
+on: `
+<ul class="liste">
+
+<li>Ön lastikler</li>
+<li>Jantlar</li>
+<li>Ön rulmanlar</li>
+<li>Akslar</li>
+<li>Süspansiyon</li>
+<li>Fren sistemi</li>
+
+</ul>
+`,
+
+arka: `
+<ul class="liste">
+
+<li>Arka lastikler</li>
+<li>Jantlar</li>
+<li>Arka rulmanlar</li>
+<li>Süspansiyon</li>
+<li>Arka fren sistemi</li>
+
+</ul>
+`,
+
+motor: `
+<ul class="liste">
+
+<li>Motor bağlantıları</li>
+<li>Kayışlar</li>
+<li>Turbo sistemi</li>
+<li>Su pompası</li>
+<li>Egzoz sistemi</li>
+<li>Motor içi parçalar</li>
+
+</ul>
+`,
+
+vites: `
+<ul class="liste">
+
+<li>Debriyaj</li>
+<li>Şanzıman</li>
+<li>Diferansiyel</li>
+<li>Akslar</li>
+<li>Aktarma bağlantıları</li>
+
+</ul>
+`
+
+};
+
+sonuc(
+"🔊 Ses / Titreşim",
+`
+<p><b>Kontrol edilebilecek bölgeler:</b></p>
+${bilgiler[bolge]}
+`
+);
+
+}
+
+
+/* MOTOR */
+
+function motor() {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>🔥 Motor</h2>
+
+<p>
+Motor çalışırken düzensiz çalışma, tekleme veya stop etme
+gibi bir problem var mı?
+</p>
+
+<button data-action="motor-evet">
+✅ Evet
+</button>
+
+<button data-action="motor-hayir">
+❌ Hayır
+</button>
+
+<button data-action="motor-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Geri
+</button>
+
+</div>
+
+`;
+
+}
+
+
+function motorSonuc(cevap) {
+
+if (cevap === "evet") {
+
+sonuc(
+
+"🔥 Motor Çalışma Problemi",
+
+`
+<ul class="liste">
+
+<li>Yakıt sistemi</li>
+<li>Hava giriş sistemi</li>
+<li>Hava filtresi</li>
+<li>Ateşleme sistemi</li>
+<li>Enjektörler</li>
+<li>Sensörler</li>
+<li>Turbo sistemi</li>
+<li>Motor mekanik sistemi</li>
+
+</ul>
+`
+
+);
+
+} else {
+
+sonuc(
+
+"🔥 Motor",
+
+`
+<p>
+Belirgin çalışma problemi belirtilmedi.
+</p>
+`
+
+);
+
+}
+
+}
+
+
+/* DUMAN */
+
+function duman() {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>💨 Egzoz Dumanı</h2>
+
+<p>
+Egzozdan normalden fazla duman çıkıyor mu?
+</p>
+
+<button data-action="duman-evet">
+✅ Evet
+</button>
+
+<button data-action="duman-hayir">
+❌ Hayır
+</button>
+
+<button data-action="duman-bilmiyorum">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Geri
+</button>
+
+</div>
+
+`;
+
+}
+
+
+function dumanSonuc(cevap) {
+
+if (cevap === "evet") {
+
+ekran.innerHTML = `
+
+<div class="soru">
+
+<h2>💨 Egzoz Dumanı</h2>
+
+<p>
+Dumanın rengi nasıl?
+</p>
+
+<button data-action="duman-beyaz">
+⚪ Beyaz
+</button>
+
+<button data-action="duman-mavi">
+🔵 Mavi / Mavimsi
+</button>
+
+<button data-action="duman-siyah">
+⚫ Siyah
+</button>
+
+<button data-action="duman-bilinmiyor">
+❓ Bilmiyorum
+</button>
+
+<button class="geri" data-action="ariza">
+⬅️ Arıza Menüsü
+</button>
+
+</div>
+
+`;
+
+} else {
+
+sonuc(
+
+"💨 Egzoz",
+
+`
+<p>
+Belirgin fazla duman yoksa bu belirti üzerinden
+bir arıza sonucu çıkarılamaz.
+</p>
+`
+
+);
+
+}
+
+}
+
+
+function dumanRenk(renk) {
+
+const bilgiler = {
+
+beyaz: `
+<p>
+Beyaz dumanın nedeni motorun çalışma koşullarına göre değişebilir.
+</p>
+
+<ul class="liste">
+
+<li>Soğuk çalıştırma koşulları</li>
+<li>Soğutma sıvısının yanma odasına girmesi</li>
+<li>Silindir kapak contası gibi problemler</li>
+
+</ul>
+`,
+
+mavi: `
+<p>
+Mavimsi duman motorun yağ tüketmesiyle ilişkili olabilir.
+</p>
+
+<ul class="liste">
+
+<li>Turbo sistemi</li>
+<li>Piston segmanları</li>
+<li>Supap keçeleri</li>
+<li>Motor içi yağ kontrol problemleri</li>
+
+</ul>
+`,
+
+siyah: `
+<p>
+Siyah duman hava-yakıt dengesinin uygun olmamasıyla
+ilişkili olabilir.
+</p>
+
+<ul class="liste">
+
+<li>Hava filtresi</li>
+<li>Yakıt sistemi</li>
+<li>Enjektörler</li>
+<li>Hava ölçüm sistemi</li>
+<li>Turbo / hava basıncı sistemi</li>
+
+</ul>
+`
+
+};
+
+sonuc(
+"💨 Egzoz Dumanı",
+bilgiler[renk]
+);
+
+}
+
+
+/* PARÇA REHBERİ */
+
+function parcaMenu() {
+
+ekran.innerHTML = `
+
+<div class="baslik">
+
+<h2>🧩 Parça Rehberi</h2>
+
+<p>
+Bir parçayı seç ve ne işe yaradığını öğren.
+</p>
+
+</div>
+
+<div class="menu">
+
+<button data-part="turbo">
+🌀 Turbo
+</button>
+
+<button data-part="termostat">
+🌡️ Termostat
+</button>
+
+<button data-part="su">
+💧 Su Pompası
+</button>
+
+<button data-part="radyator">
+💧 Radyatör
+</button>
+
+<button data-part="fan">
+🌀 Radyatör Fanı
+</button>
+
+<button data-part="debriyaj">
+⚙️ Debriyaj
+</button>
+
+<button data-part="diferansiyel">
+⚙️ Diferansiyel
+</button>
+
+<button data-part="alternator">
+⚡ Alternatör
+</button>
+
+<button data-part="aku">
+🔋 Akü
+</button>
+
+<button data-part="mars">
+⚡ Marş Motoru
+</button>
+
+<button data-part="fren">
+🛑 Fren Sistemi
+</button>
+
+<button data-part="piston">
+🔩 Piston
+</button>
+
+</div>
+
+<button class="geri" data-action="ana">
+⬅️ Ana Menü
+</button>
+
+`;
+
+}
+
+
+const parcalar = {
+
+turbo: [
+"🌀 Turbo",
+"Egzoz gazının enerjisinden yararlanarak motora daha fazla hava göndermeye yardımcı olur.",
+"Turbo; türbin, mil ve kompresör taraflarından oluşan bir sistemdir."
+],
+
+termostat: [
+"🌡️ Termostat",
+"Motorun çalışma sıcaklığının düzenlenmesine yardımcı olur.",
+"Motor soğukken soğutma sıvısının dolaşımını sınırlar, motor çalışma sıcaklığına geldiğinde dolaşımın artmasına izin verir."
+],
+
+su: [
+"💧 Su Pompası",
+"Soğutma sıvısının motor ve radyatör arasında dolaşmasına yardımcı olur.",
+"Pompa düzgün çalışmazsa motorun soğutulması zorlaşabilir."
+],
+
+radyator: [
+"💧 Radyatör",
+"Soğutma sıvısının taşıdığı ısının dışarı aktarılmasına yardımcı olur.",
+"Motorun uygun çalışma sıcaklığında kalmasına katkı sağlar."
+],
+
+fan: [
+"🌀 Radyatör Fanı",
+"Radyatörden hava geçirerek soğutmaya yardımcı olur.",
+"Özellikle araç düşük hızdayken veya dururken önemli görev yapar."
+],
+
+debriyaj: [
+"⚙️ Debriyaj",
+"Motor ile şanzıman arasındaki güç aktarımını bağlayıp ayırmaya yardımcı olur.",
+"Manuel araçlarda vites değiştirirken önemli görev yapar."
+],
+
+diferansiyel: [
+"⚙️ Diferansiyel",
+"Gücü tekerleklere iletir ve virajlarda sağ ve sol tekerleklerin farklı hızlarda dönmesine izin verir.",
+"Aktarma sisteminin önemli parçalarındandır."
+],
+
+alternator: [
+"⚡ Alternatör",
+"Motor çalışırken elektrik üretir.",
+"Aracın elektrik sistemini beslemeye ve akünün şarj edilmesine yardımcı olur."
+],
+
+aku: [
+"🔋 Akü",
+"Elektrik enerjisini depolar.",
+"Motorun çalıştırılması ve araçtaki elektrik sistemlerinin beslenmesi için önemlidir."
+],
+
+mars: [
+"⚡ Marş Motoru",
+"Motorun ilk çalışmaya başlaması için krank milini döndürmeye yardımcı olur.",
+"Aküden gelen elektrik enerjisini mekanik harekete çevirir."
+],
+
+fren: [
+"🛑 Fren Sistemi",
+"Aracın hızını azaltmak veya aracı durdurmak için kullanılır.",
+"Disk, balata, kaliper, fren hidroliği veya kampana gibi parçalar aracın sistemine göre görev yapar."
+],
+
+piston: [
+"🔩 Piston",
+"Motorun silindirleri içinde yukarı-aşağı hareket eder.",
+"Yanma sonucu oluşan basıncın krank milinin dönme hareketine aktarılmasına yardımcı olur."
+]
+
+};
+
+
+function parcaGoster(tip) {
+
+const bilgi = parcalar[tip];
+
+ekran.innerHTML = `
+
+<div class="aciklama">
+
+<h2>${bilgi[0]}</h2>
+
+<p><b>Ne işe yarar?</b></p>
+
+<p>${bilgi[1]}</p>
+
+<p><b>Kısaca:</b></p>
+
+<p>${bilgi[2]}</p>
+
+<button class="geri" data-action="parca">
+⬅️ Parçalara Dön
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* ÖĞREN */
+
+function ogrenMenu() {
+
+ekran.innerHTML = `
+
+<div class="baslik">
+
+<h2>📚 Öğren</h2>
+
+<p>
+Otomobil sistemlerini basit şekilde öğren.
+</p>
+
+</div>
+
+<div class="menu">
+
+<button data-lesson="motor">
+🔥 Motor Nasıl Çalışır?
+</button>
+
+<button data-lesson="turbo">
+🌀 Turbo Nasıl Çalışır?
+</button>
+
+<button data-lesson="sogutma">
+💧 Soğutma Sistemi
+</button>
+
+<button data-lesson="aktarma">
+⚙️ Güç Tekerleklere Nasıl Gider?
+</button>
+
+<button data-lesson="fren">
+🛑 Fren Nasıl Çalışır?
+</button>
+
+<button data-lesson="dortzaman">
+🔄 4 Zamanlı Motor
+</button>
+
+</div>
+
+<button class="geri" data-action="ana">
+⬅️ Ana Menü
+</button>
+
+`;
+
+}
+
+
+const dersler = {
+
+motor: [
+"🔥 Motor Nasıl Çalışır?",
+"Yakıt ve hava motor içinde kontrollü şekilde yakılır. Oluşan basınç pistonları hareket ettirir. Pistonların hareketi biyel kolu üzerinden krank milinin dönmesini sağlar."
+],
+
+turbo: [
+"🌀 Turbo Nasıl Çalışır?",
+"Egzoz gazı turbonun türbin tarafını döndürür. Aynı mil üzerindeki kompresör de döner ve motora daha fazla hava gönderilmesine yardımcı olur. Kullanılmış egzoz gazı egzoz sistemi üzerinden dışarı atılır."
+],
+
+sogutma: [
+"💧 Soğutma Sistemi",
+"Motor çalışırken ısı üretir. Soğutma sıvısı motordan aldığı ısıyı taşır. Su pompası sıvının dolaşmasına yardımcı olur, termostat sıcaklığı düzenler ve radyatör ısının dışarı aktarılmasına yardımcı olur."
+],
+
+aktarma: [
+"⚙️ Güç Tekerleklere Nasıl Gider?",
+"Motorun ürettiği dönme hareketi krank milinden aktarma sistemine geçer. Araç tipine göre debriyaj veya tork konvertörü, şanzıman, diferansiyel, akslar ve diğer aktarma parçaları üzerinden tekerleklere ulaşır."
+],
+
+fren: [
+"🛑 Fren Nasıl Çalışır?",
+"Fren pedalına basıldığında fren sistemi tekerleklerin dönmesini yavaşlatacak kuvvet oluşturur. Disk, balata, kaliper veya kampana gibi parçalar aracın fren sistemine göre görev yapar."
+],
+
+dortzaman: [
+"🔄 4 Zamanlı Motor",
+"4 zamanlı motorda emme, sıkıştırma, yanma ve egzoz aşamaları bulunur. Bu aşamalar pistonun hareketi ve supapların açılıp kapanmasıyla gerçekleşir."
+]
+
+};
+
+
+function dersGoster(tip) {
+
+const ders = dersler[tip];
+
+ekran.innerHTML = `
+
+<div class="aciklama">
+
+<h2>${ders[0]}</h2>
+
+<p>${ders[1]}</p>
+
+<button class="geri" data-action="ogren">
+⬅️ Derslere Dön
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* SONUÇ */
+
+function sonuc(baslik, icerik, tehlike = false) {
+
+ekran.innerHTML = `
+
+<div class="kart ${tehlike ? "tehlike" : ""}">
+
+<h2>${baslik}</h2>
+
+${icerik}
+
+<div class="uyari">
+
+⚠️ Bu uygulama kesin teşhis koymaz.
+Sonuçlar olası nedenleri gösterir.
+Kesin teşhis için araç üzerinde kontrol gerekir.
+
+</div>
+
+<button class="geri" data-action="ariza">
+🔎 Arıza Menüsüne Dön
+</button>
+
+<button class="geri" data-action="ana">
+🏠 Ana Menü
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* BUTON SİSTEMİ */
+
+ekran.addEventListener("click", function(event) {
+
+const button = event.target.closest("button");
+
+if (!button) return;
+
+const action = button.dataset.action;
+const part = button.dataset.part;
+const lesson = button.dataset.lesson;
+
+
+/* PARÇA */
+
+if (part) {
+
+parcaGoster(part);
+
+return;
+
+}
+
+
+/* DERS */
+
+if (lesson) {
+
+dersGoster(lesson);
+
+return;
+
+}
+
+
+switch(action) {
+
+case "ana":
+anaMenu();
+break;
+
+case "ariza":
+arizaMenu();
+break;
+
+case "parca":
+parcaMenu();
+break;
+
+case "ogren":
+ogrenMenu();
+break;
+
+
+/* HARARET */
+
+case "hararet":
+hararet();
+break;
+
+case "hararet-evet":
+hararetEvet();
+break;
+
+case "hararet-hayir":
+sonuc(
+"🌡️ Hararet",
+"<p>Hararet belirtisi yoksa bu belirti üzerinden belirgin bir soğutma arızası gösterilemez.</p>"
+);
+break;
+
+case "hararet-bilmiyorum":
+hararetEvet();
+break;
+
+
+/* FAN */
+
+case "fan-evet":
+fanSonuc("evet");
+break;
+
+case "fan-hayir":
+fanSonuc("hayir");
+break;
+
+case "fan-bilmiyorum":
+fanSonuc("bilmiyorum");
+break;
+
+
+/* SU */
+
+case "su-evet":
+suSonuc("evet");
+break;
+
+case "su-hayir":
+suSonuc("hayir");
+break;
+
+case "su-bilmiyorum":
+suSonuc("bilmiyorum");
+break;
+
+
+/* TURBO */
+
+case "turbo":
+turbo();
+break;
+
+case "turbo-evet":
+turboSonuc("evet");
+break;
+
+case "turbo-hayir":
+turboSonuc("hayir");
+break;
+
+case "turbo-bilmiyorum":
+turboSonuc("bilmiyorum");
+break;
+
+case "turbo-ses-evet":
+turboSesSonuc("evet");
+break;
+
+case "turbo-ses-hayir":
+turboSesSonuc("hayir");
+break;
+
+case "turbo-ses-bilmiyorum":
+turboSesSonuc("bilmiyorum");
+break;
+
+
+/* ELEKTRİK */
+
+case "elektrik":
+elektrik();
+break;
+
+case "mars-evet":
+marsSonuc("evet");
+break;
+
+case "mars-hayir":
+marsSonuc("hayir");
+break;
+
+case "mars-bilmiyorum":
+marsSonuc("bilmiyorum");
+break;
+
+
+/* ŞANZIMAN */
+
+case "sanziman":
+sanziman();
+break;
+
+case "vites-evet":
+vitesSonuc("evet");
+break;
+
+case "vites-hayir":
+vitesSonuc("hayir");
+break;
+
+case "vites-bilmiyorum":
+vitesSonuc("bilmiyorum");
+break;
+
+
+/* FREN */
+
+case "fren":
+fren();
+break;
+
+case "fren-evet":
+frenSonuc("evet");
+break;
+
+case "fren-hayir":
+frenSonuc("hayir");
+break;
+
+case "fren-bilmiyorum":
+frenSonuc("bilmiyorum");
+break;
+
+
+/* SES */
+
+case "ses":
+ses();
+break;
+
+case "ses-evet":
+sesSonuc("evet");
+break;
+
+case "ses-hayir":
+sesSonuc("hayir");
+break;
+
+case "ses-bilmiyorum":
+sesSonuc("bilmiyorum");
+break;
+
+case "ses-on":
+sesBolgesi("on");
+break;
+
+case "ses-arka":
+sesBolgesi("arka");
+break;
+
+case "ses-motor":
+sesBolgesi("motor");
+break;
+
+case "ses-vites":
+sesBolgesi("vites");
+break;
+
+case "ses-bilinmiyor":
+sonuc(
+"🔊 Ses / Titreşim",
+"<p>Sesin yeri belirlenemiyorsa araç üzerinde genel kontrol gerekir.</p>"
+);
+break;
+
+
+/* MOTOR */
+
+case "motor":
+motor();
+break;
+
+case "motor-evet":
+motorSonuc("evet");
+break;
+
+case "motor-hayir":
+motorSonuc("hayir");
+break;
+
+case "motor-bilmiyorum":
+motorSonuc("bilmiyorum");
+break;
+
+
+/* DUMAN */
+
+case "duman":
+duman();
+break;
+
+case "duman-evet":
+dumanSonuc("evet");
+break;
+
+case "duman-hayir":
+dumanSonuc("hayir");
+break;
+
+case "duman-bilmiyorum":
+dumanSonuc("bilmiyorum");
+break;
+
+case "duman-beyaz":
+dumanRenk("beyaz");
+break;
+
+case "duman-mavi":
+dumanRenk("mavi");
+break;
+
+case "duman-siyah":
+dumanRenk("siyah");
+break;
+
+case "duman-bilinmiyor":
+sonuc(
+"💨 Egzoz Dumanı",
+"<p>Dumanın rengi belirlenemiyorsa araç üzerinde kontrol gerekir.</p>"
+);
+break;
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
